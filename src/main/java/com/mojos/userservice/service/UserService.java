@@ -14,12 +14,25 @@ import java.util.Optional;
 @Service
 public class UserService {
 
+    //INSTANCE;
+
     @Autowired
     UserRepository userRepository;
 
     public UserResponse crete(UserRequest userRequest){
-      User newUser = userRerquestMapper(userRequest);
-        newUser = userRepository.save(newUser);
+
+        User newUser = null;
+        try {
+            newUser = userRerquestMapper(userRequest);
+        }catch (Exception e){
+            System.out.println(e.fillInStackTrace());
+        }
+         try {
+             newUser = userRepository.save(newUser);
+         }catch (Exception e){
+             System.out.println(e.fillInStackTrace());
+         }
+
         return userResponseMapper(newUser);
     }
 //model(request) to domain
@@ -98,6 +111,10 @@ public class UserService {
 
     public void delete(String userId) {
         System.out.println(" uid :" +get(userId));
-        userRepository.deleteByUserId(userId);
+        try{
+            userRepository.deleteByUserId(userId);
+        }catch (Exception e){
+            System.out.println(e.fillInStackTrace());
+        }
     }
 }

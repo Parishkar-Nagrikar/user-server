@@ -13,17 +13,27 @@ import java.util.Optional;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
+   @Autowired
     private UserService userService;
 
-    @PostMapping
+//    public UserController(){
+//        userService = UserService.INSTANCE;
+//    }
+
+    @PostMapping("/create")
     public ResponseEntity<UserResponse> crate(@RequestBody UserRequest userRequest){
-        UserResponse userResponse = userService.crete(userRequest);
+        UserResponse userResponse = null;
+        try {
+            userResponse = userService.crete(userRequest);
+        }catch (Exception e){
+            System.out.println(e.fillInStackTrace());
+        }
         return ResponseEntity.ok(userResponse);
     }
 
     @GetMapping("/userId/{id}")
     public ResponseEntity<UserResponse> get(@PathVariable String id){
+
         Optional<UserResponse> userResponse = userService.get(id);
         if (userResponse.isPresent())
             return ResponseEntity.ok(userResponse.get());
@@ -42,13 +52,22 @@ public class UserController {
 
     @PutMapping
     public ResponseEntity<UserResponse> put(@RequestBody UserRequest userRequest){
-        UserResponse userResponse = userService.update(userRequest);
+        UserResponse userResponse = null;
+        try{
+            userResponse = userService.update(userRequest);
+        }catch (Exception e){
+            System.out.println(e.fillInStackTrace());
+        }
         return ResponseEntity.ok(userResponse);
     }
 //delete by userid
     @DeleteMapping("/userId/{userId}")
     public ResponseEntity<String> delete(@PathVariable String userId){
-        userService.delete(userId);
+        try {
+            userService.delete(userId);
+        }catch (Exception e){
+            System.out.println(e.fillInStackTrace());
+        }
         return ResponseEntity.ok().build();
     }
 }

@@ -8,3 +8,8 @@ spring:
       #authentication-database: ecommerce
       #username:
       #password:
+
+#  security:
+#    user:
+#      name: 'mojos.user'
+#      password: 'October@2020'
